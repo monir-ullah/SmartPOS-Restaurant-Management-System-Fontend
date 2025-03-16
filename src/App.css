@@ -1,0 +1,36 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Login button  */
+.login-btn {
+  color: #1677ff !important;
+  border: 2px solid #1677ff !important;
+}
+
+/* Login hover button */
+.login-btn:hover {
+  background-color: #1677ff !important;
+  color: whitesmoke !important;
+}
+
+/* single item delete hover button  */
+.delete_hover_color:hover {
+  color: #cd5c5c !important;
+}
+
+/* sells button hover */
+.sell-btn:hover {
+  color: #355e3b !important;
+}
+
+/* total quantity price style */
+.total-quantity-price {
+  border: 2px solid #8c8c8c;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}

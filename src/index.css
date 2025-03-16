@@ -1,0 +1,15 @@
+/* media query for header for making my app responsive.  */
+@media (min-width: 768px) {
+  .sm-xm-margin-bottom {
+    margin-top: "2%";
+  }
+  .header-height-main-layout {
+    padding-left: 30px;
+  }
+}
+
+@media (min-width: 576px) {
+  .header-height-main-layout {
+    padding-left: 20px;
+  }
+}
