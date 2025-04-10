@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { jwtDecode } from "jwt-decode";
 import { TFieldType } from "../../interface/interface.type";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const Login = () => {
   // dispatch function from redux
@@ -20,20 +21,23 @@ const Login = () => {
   // Login User Function from the redux baseAPI
   const [loginUser, { isError }] = useLoginUserMutation();
 
-  if (isError) {
-    toast.error("Something Went Wrong. Please Try Again.");
-  }
+  // Use useEffect to handle error state changes
+  useEffect(() => {
+    if (isError) {
+      toast.error("Something Went Wrong. Please Try Again.");
+    }
+  }, [isError]);
+
+  // use more 
 
   const onFinish = async (values: any) => {
     try {
       const loginData = await loginUser(values).unwrap();
+      console.log(loginData);
       const decoded = jwtDecode(loginData.data);
       dispatch(setUserInfo({ user: decoded, token: loginData.data }));
-
-
+      
       toast.success("Successfully logged in!");
-
-      // Redirecting the user to the last path
       navigate(lastPath);
     } catch (error) {
       toast.error("Login failed. Please check your credentials.");

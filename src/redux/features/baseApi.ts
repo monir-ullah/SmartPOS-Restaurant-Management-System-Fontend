@@ -4,14 +4,30 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseAPI = createApi({
   reducerPath: "baseAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/auth/",
+    // baseUrl: "http://localhost:5000/api/v1/auth/",
+    baseUrl: "http://localhost:5000/api/v1/",
+    credentials: "include",
+
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as { user: { token: string } }).user.token;
+
+      if (token) {
+        // Change this line
+        headers.set("authorization", token);
+        
+        // To this
+        headers.set("authorization", `${token}`);
+        return headers;
+      }
+    },
+
   }),
   tagTypes: ["smartphones"],
   endpoints: (builder) => ({
     // user Registration into the system
     registerUser: builder.mutation({
       query: ({ username, password, role }) => ({
-        url: "user/registration",
+        url: "auth/user/registration",
         method: "POST",
         body: {
           username,
@@ -23,8 +39,9 @@ export const baseAPI = createApi({
 
     // User Login for getting data
     loginUser: builder.mutation({
+      
       query: ({ username, password }) => ({
-        url: "user/login",
+        url: "auth/user/login",  // This creates a double "auth" in the URL
         method: "POST",
         body: {
           username,
