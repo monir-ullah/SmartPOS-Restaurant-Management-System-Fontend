@@ -1,4 +1,5 @@
 import {
+  AppstoreOutlined,
   IdcardOutlined,
   RiseOutlined,
   SettingOutlined,
@@ -8,7 +9,7 @@ import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
 // MenuItem Type
-type TMenuItem = { key: string; icon: ReactNode; label: ReactNode };
+type TMenuItem = { key?: string; icon?: ReactNode; label?: ReactNode, children?: TMenuItem[] };
 
 // side abr menu paths
 export const menuItem: TMenuItem[] = [
@@ -22,4 +23,21 @@ export const menuItem: TMenuItem[] = [
     icon: <IdcardOutlined />,
     label: <NavLink to={"/registration"}>Registration</NavLink>,
   },
+  {
+    key: "category",
+    icon: <AppstoreOutlined />,
+    label: 'Food MNG',
+    children: [
+      {
+        key: "create-category",
+        icon: <RiseOutlined />,
+        label: <NavLink to={"/create-category"}>Create Category</NavLink>,
+      },
+      {
+        key: "category-list",
+        icon: <SettingOutlined />,
+        label: <NavLink to={"/category-list"}>Category List</NavLink>,
+      }
+    ]
+  }
 ];
