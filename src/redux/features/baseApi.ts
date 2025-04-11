@@ -1,11 +1,21 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, RootState } from "@reduxjs/toolkit/query/react";
 
 export const baseAPI = createApi({
   reducerPath: "baseAPI",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api/v1/",
+    credentials: "include",
+    // headers for authorization token
+    prepareHeaders: (headers, { getState }) => {
+      //@ts-ignore
+      const token = (getState() as RootState).user.token;
+      if (token) {
+        headers.set("authorization", `${token}`);
+      }
+      return headers;
+    },
   }),
-  tagTypes: ["smartphones", "categories"],
+  tagTypes: [ "categories", "tables"], // Add tables tag
   endpoints: (builder) => ({
     // user Registration into the system
     registerUser: builder.mutation({
@@ -23,7 +33,7 @@ export const baseAPI = createApi({
     // User Login for getting data
     loginUser: builder.mutation({
       query: ({ username, password }) => ({
-        url: "user/login",
+        url: "auth/user/login",
         method: "POST",
         body: {
           username,

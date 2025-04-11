@@ -1,5 +1,5 @@
 import { Button, Form, Input } from "antd";
-import { useCreateCategoryMutation } from "../../redux/features/baseApi";
+import { useCreateCategoryMutation } from "../../../redux/features/baseApi";
 import { toast } from "react-toastify";
 
 const CreateCategory = () => {

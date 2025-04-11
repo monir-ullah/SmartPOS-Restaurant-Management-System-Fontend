@@ -1,5 +1,5 @@
 import { Button, Form, Input } from "antd";
-import { useUpdateCategoryMutation, useGetSingleCategoryQuery } from "../../redux/features/baseApi";
+import { useUpdateCategoryMutation, useGetSingleCategoryQuery } from "../../../redux/features/baseApi";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";

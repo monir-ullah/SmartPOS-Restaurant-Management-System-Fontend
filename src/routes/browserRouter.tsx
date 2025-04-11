@@ -1,15 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Login from "../components/UI/Login";
+import Login from "../components/UI/auth/Login";
 import { ReactNode } from "react";
-import Registration from "../components/UI/Registration";
 import PageNotFound from "../utilities/PageNotFound";
 import ProtectedRoute from "./ProtectedRoute";
-import DashboardLayout from "../components/Layout/DashboardLayout";
-import CreateCategory from "../components/UI/CreateCategory";
-import UpdateCategory from "../components/UI/UpdateCategory";
-import CategoryList from "../components/UI/CategoryList";
-import CategoryList2 from "../components/UI/CategoryList2";
+import Registration from "../components/UI/auth/Registration";
+import CreateCategory from "../components/UI/category/CreateCategory";
+import UpdateCategory from "../components/UI/category/UpdateCategory";
+import CategoryList2 from "../components/UI/category/CategoryList2";
+import CreateTable from "../components/UI/table/CreateTable";
+import TableList from "../components/UI/table/TableList";
+import UpdateTable from "../components/UI/table/UpdateTable";
 
 type TRoute = {
   path: string;
@@ -50,6 +51,28 @@ const allRoutes: TRoute[] = [
         element: (
           <ProtectedRoute allowedRoles={['admin','manager']}>
             <CategoryList2 />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "create-table",
+        element: (
+          <ProtectedRoute allowedRoles={['admin', 'manager']}>
+            <CreateTable />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "table-list",
+        element: (
+          <TableList />
+        ),
+      },
+      {
+        path: "update-table/:tableId",
+        element: (
+          <ProtectedRoute allowedRoles={['admin', 'manager']}>
+            <UpdateTable />
           </ProtectedRoute>
         ),
       },

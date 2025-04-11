@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table, Space, Button, Input, Popconfirm, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useGetCategoriesQuery, useDeleteCategoryMutation } from '../../redux/features/baseApi';
+import { useGetCategoriesQuery, useDeleteCategoryMutation } from '../../../redux/features/baseApi';
 import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const CategoryList = () => {

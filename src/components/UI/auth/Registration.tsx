@@ -2,9 +2,9 @@
 
 import { Button, Form, Input, Select } from "antd";
 import { NavLink } from "react-router-dom";
-import { useRegisterUserMutation } from "../../redux/features/baseApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useRegisterUserMutation } from "../../../redux/features/baseApi";
 
 type FieldType = {
   username?: string;

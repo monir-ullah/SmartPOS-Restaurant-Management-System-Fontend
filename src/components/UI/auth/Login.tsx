@@ -2,11 +2,11 @@
 
 import { Button, Checkbox, Form, Input } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useLoginUserMutation } from "../../redux/features/baseApi";
-import { setUserInfo } from "../../redux/features/user/userSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useLoginUserMutation } from "../../../redux/features/baseApi";
+import { setUserInfo } from "../../../redux/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { jwtDecode } from "jwt-decode";
-import { TFieldType } from "../../interface/interface.type";
+import { TFieldType } from "../../../interface/interface.type";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -79,6 +79,7 @@ const Login = () => {
             label="Username"
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
+            initialValue={"john_doe"}
           >
             <Input />
           </Form.Item>
@@ -87,6 +88,7 @@ const Login = () => {
           <Form.Item<TFieldType>
             label="Password"
             name="password"
+            initialValue={"password123"}
             rules={[{ required: true, message: "Please input your password!" }]}
           >
             <Input.Password />

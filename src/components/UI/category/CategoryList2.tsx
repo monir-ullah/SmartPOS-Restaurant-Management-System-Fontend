@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, Row, Col, Button, Input, Popconfirm, message, Pagination, Space, Empty, Tooltip } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useGetCategoriesQuery, useDeleteCategoryMutation } from '../../redux/features/baseApi';
+import { useGetCategoriesQuery, useDeleteCategoryMutation } from '../../../redux/features/baseApi';
 import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { InfoCircleOutlined } from '@ant-design/icons';  // Add this import
 
@@ -9,11 +9,10 @@ const CategoryList2 = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(8); // Changed to 8 for better grid layout
+  const [pageSize, setPageSize] = useState(8);
 
+  // Fetch all categories at once
   const { data: categoryData, isLoading } = useGetCategoriesQuery({
-    page,
-    limit: pageSize,
     searchTerm: searchText
   });
 
@@ -62,6 +61,9 @@ const CategoryList2 = () => {
     </Popconfirm>
   ];
 
+  // Calculate the current page data
+  const currentData = categoryData?.data?.slice((page - 1) * pageSize, page * pageSize);
+
   return (
     <div style={{ padding: '1rem' }}>
       <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -81,10 +83,10 @@ const CategoryList2 = () => {
             </Col>
           ))}
         </Row>
-      ) : categoryData?.data?.length ? (
+      ) : currentData?.length ? (
         <>
           <Row gutter={[16, 16]}>
-            {categoryData.data.map((category: any) => (
+            {currentData.map((category: any) => (
               <Col xs={24} sm={12} md={8} lg={6} key={category._id}>
                 <Card
                   actions={actions(category.categoryId, category.description)}
@@ -107,7 +109,7 @@ const CategoryList2 = () => {
             <Pagination
               current={page}
               pageSize={pageSize}
-              total={categoryData?.meta?.total}
+              total={categoryData?.data?.length || 0}
               onChange={(page, pageSize) => {
                 setPage(page);
                 setPageSize(pageSize);
