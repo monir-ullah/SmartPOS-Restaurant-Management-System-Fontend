@@ -160,7 +160,7 @@ const OrderList = () => {
   return (
     <div style={{ padding: "1rem" }}>
       <h2 style={{ fontSize: "1.875rem", fontWeight: "bold", marginBottom: "1rem" }}>
-        Orders
+       Running Orders
       </h2>
       
       <Table
