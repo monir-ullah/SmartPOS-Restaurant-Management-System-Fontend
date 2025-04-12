@@ -1,9 +1,10 @@
 import { Button, Form, Input, Select, Switch, Row, Col } from "antd";
 import { useGetCategoriesQuery } from "../../../redux/features/baseApi";
 import { toast } from "react-toastify";
+import { useCreateFoodItemMutation } from "../../../redux/features/fooditem/foodItemAPi";
 
 const CreateFood = () => {
-//   const [createFood] = useCreateFoodMutation();
+  const [createFood] = useCreateFoodItemMutation();
   const { data: categories } = useGetCategoriesQuery({});
 
   const onFinish = async (values: {
@@ -14,13 +15,22 @@ const CreateFood = () => {
     imageUrl: string;
     isAvailable: boolean;
   }) => {
-    console.log(values);
     try {
-    //   await createFood(values).unwrap();
-      toast.success("Food item created successfully!");
-      form.resetFields();
-    } catch (error) {
-      toast.error("Failed to create food item");
+      const formData = {
+        ...values,
+        price: Number(values.price) // Convert price to number
+      };
+      
+      const response = await createFood(formData).unwrap();
+      if (response.success) {
+        toast.success(response.message || "Food item created successfully!");
+        form.resetFields();
+      } else {
+        toast.error(response.message || "Failed to create food item");
+      }
+    } catch (error: any) {
+      const errorMessage = error?.data?.error?.details?.errors?.[0]?.message || error?.data?.message || "Failed to create food item";
+      toast.error(errorMessage);
     }
   };
 
@@ -96,9 +106,19 @@ const CreateFood = () => {
             <Form.Item
               label="Image URL"
               name="imageUrl"
-              rules={[{ required: true, message: "Please input image URL!" }]}
+              rules={[
+                { required: true, message: "Please input image URL!" },
+                {
+                  type: 'url',
+                  message: 'Please enter a valid URL!',
+                },
+              ]}
+              validateTrigger="onBlur"
             >
-              <Input />
+              <Input 
+                placeholder="http(s)://example.com/image.jpg?param=value"
+                allowClear
+              />
             </Form.Item>
           </Col>
 

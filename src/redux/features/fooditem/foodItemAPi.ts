@@ -27,8 +27,8 @@ export const foodItemApi = baseAPI.injectEndpoints({
 
     // Update food item
     updateFoodItem: builder.mutation({
-      query: ({ id, ...data }) => ({
-        url: `foods/update-single-fodd-item/${id}`,
+      query: ({ foodId, ...data }) => ({
+        url: `foods/update-single-food-item/${foodId}`,
         method: "PATCH",
         body: data,
       }),
@@ -38,7 +38,7 @@ export const foodItemApi = baseAPI.injectEndpoints({
     // Delete food item
     deleteFoodItem: builder.mutation({
       query: (id) => ({
-        url: `foods/delete-single-food-itme/${id}`,
+        url: `foods/delete-single-food-item/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["foodItems"],
