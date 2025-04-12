@@ -42,62 +42,70 @@ console.log(tableData?.data?.data); // make this ready for
         name="createOrder"
         onFinish={onFinish}
         layout="vertical"
-        style={{ maxWidth: 1000 }}
+        style={{ maxWidth: 1200 }}  // Increased max width
       >
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              name="tableId"
-              label="Table Number"
-              rules={[{ required: true, message: "Please select table!" }]}
-            >
-              <Select 
-                placeholder="Select table"
-                showSearch
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  String(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                }
+        <div style={{ 
+          background: '#f9f9f9',  // Semi-transparent white background for better visibility
+          padding: '20px',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+        }}>
+          <Row gutter={16}>
+            <Col span={10}>
+              <Form.Item
+                name="customerName"
+                label="Customer Name"
+                rules={[{ required: true, message: "Please input customer name!" }]}
               >
-                {[...(tableData?.data?.data || [])].sort((a, b) => a.tableNumber - b.tableNumber).map((table: any) => (
-                  <Option key={table.tableId} value={table.tableId} label={`Table ${table.tableNumber}`}>
-                    {`Table ${table.tableNumber}`}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
+                <Input />
+              </Form.Item>
+            </Col>
 
-          <Col span={12}>
-            <Form.Item
-              name="customerName"
-              label="Customer Name"
-              rules={[{ required: true, message: "Please input customer name!" }]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              name="orderType"
-              label="Order Type"
-              rules={[{ required: true, message: "Please select order type!" }]}
-            >
-              <Select 
-                placeholder="Select order type"
-                showSearch
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  String(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                }
+            <Col span={8}>
+              <Form.Item
+                name="tableId"
+                label="Table Number"
+                rules={[{ required: true, message: "Please select table!" }]}
               >
-                <Option value="dine-in" label="Dine In">Dine In</Option>
-                <Option value="takeaway" label="Takeaway">Takeaway</Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
+                <Select 
+                  placeholder="Select table"
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    String(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
+                >
+                  {[...(tableData?.data?.data || [])].sort((a, b) => a.tableNumber - b.tableNumber).map((table: any) => (
+                    <Option key={table.tableId} value={table.tableId} label={`Table ${table.tableNumber}`}>
+                      {`Table ${table.tableNumber}`}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+
+            <Col span={6}> 
+              <Form.Item
+                name="orderType"
+                label="Order Type"
+                rules={[{ required: true, message: "Please select order type!" }]}
+              >
+                <Select 
+                  placeholder="Select order type"
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    String(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                  }
+                >
+                  <Option value="dine-in" label="Dine In">Dine In</Option>
+                  <Option value="takeaway" label="Takeaway">Takeaway</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
 
         <Form.List
           name="items"
@@ -112,7 +120,22 @@ console.log(tableData?.data?.data); // make this ready for
           ]}
         >
           {(fields, { add, remove }) => (
-            <>
+            <div style={{ 
+              background: 'rgb(239 243 243 / 51%)', // Semi-transparent white background for better visibility
+              boxShadow: '0 1px 3px rgba(0,0,0,0.05)', // Subtle shadow for depth
+              border: '1px solid #f0f0f0', // Light border for a more natural look
+              borderRadius: '8px', // Rounded corners for a modern look
+              padding: '20px',
+              marginTop: '20px'
+            }}>
+              <h3 style={{ 
+                fontSize: '1.2rem', 
+                marginBottom: '20px',
+                color: '#333'
+              }}>
+                Order Items
+              </h3>
+
               {fields.map(({ key, name, ...restField }) => (
                 <Space key={key} style={{ display: "flex", marginBottom: 8 }} align="baseline">
                   <Form.Item
@@ -245,12 +268,43 @@ console.log(tableData?.data?.data); // make this ready for
                   Add Food Item
                 </Button>
               </Form.Item>
-            </>
+
+              <Form.Item
+                noStyle
+                shouldUpdate={(prevValues, currentValues) => {
+                  return JSON.stringify(prevValues?.items) !== JSON.stringify(currentValues?.items);
+                }}
+              >
+                {({ getFieldsValue }) => {
+                  const { items } = getFieldsValue();
+                  const total = items?.reduce((acc: number, item: any) => {
+                    const food = foodItems?.data?.find((f: any) => f.foodId === item?.foodId);
+                    return acc + (food?.price || 0) * (item?.quantity || 0);
+                  }, 0);
+
+                  return (
+                    <div style={{ 
+                      textAlign: 'right',
+                      padding: '20px 0',
+                      borderTop: '1px solid #f0f0f0',
+                      marginTop: '20px'
+                    }}>
+                      <span style={{ 
+                        fontSize: '16px',
+                        fontWeight: 'bold'
+                      }}>
+                        Grand Total: <span style={{ color: '#52c41a' }}>৳{total?.toFixed(2) || '0.00'}</span>
+                      </span>
+                    </div>
+                  );
+                }}
+              </Form.Item>
+            </div>
           )}
         </Form.List>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
+        <Form.Item style={{ marginTop: '20px' }}>
+          <Button type="primary" htmlType="submit" size="large">
             Create Order
           </Button>
         </Form.Item>
