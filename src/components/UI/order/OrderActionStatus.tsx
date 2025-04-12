@@ -12,6 +12,8 @@ import {
   useUpdateOrderStatusMutation,
   
 } from '../../../redux/features/order/orderApi';
+import { useAppSelector } from '../../../redux/hooks';
+import { useSelector } from 'react-redux';
 
 const OrderActionStatus = () => {
   const navigate = useNavigate();
@@ -26,6 +28,51 @@ const OrderActionStatus = () => {
     limit: pageSize,
     searchTerm
   });
+
+  
+  //@ts-ignore
+  const auth = useSelector((state) => state?.user?.user);
+
+  const role = auth?.role?.toLowerCase();
+  console.log(role);
+
+  // Add this function to filter orders based on role
+  const getFilteredOrders = () => {
+    if (!orderData?.orders) return [];
+    
+    if (role === 'chef' || role === 'waiter') {
+        //@ts-ignore
+      return orderData.orders.filter(order => 
+        ['pending', 'cooking', 'ready', 'served'].includes(order.status.toLowerCase())
+      );
+    }
+    return orderData.orders;
+  };
+
+  // Modify the status options based on role
+  const getStatusOptions = () => {
+    
+    if (role === 'chef') {
+      return [
+        { value: 'cooking', label: 'Cooking' },
+        { value: 'ready', label: 'Ready' },
+      ];
+    } else if (role === 'waiter') {
+      return [
+        { value: 'served', label: 'Served' },
+      ];
+    }
+    
+    return [
+      { value: 'pending', label: 'Pending' },
+      { value: 'cooking', label: 'Cooking' },
+      { value: 'ready', label: 'Ready' },
+      { value: 'served', label: 'Served' },
+      { value: 'pay', label: 'Pay' },
+      { value: 'completed', label: 'Completed' },
+      { value: 'canceled', label: 'Canceled' },
+    ];
+  };
 
 //   const [deleteOrder] = useDeleteOrderMutation();
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
@@ -172,13 +219,11 @@ const OrderActionStatus = () => {
                   onChange={(value) => setSelectedStatus(value)}
                   onSelect={(value) => handleStatusChange(record.orderId, value)}
                 >
-                  <Select.Option value="pending">Pending</Select.Option>
-                  <Select.Option value="cooking">Cooking</Select.Option>
-                  <Select.Option value="ready">Ready</Select.Option>
-                  <Select.Option value="served">Served</Select.Option>
-                  <Select.Option value="pay">Pay</Select.Option>
-                  <Select.Option value="completed">Completed</Select.Option>
-                  <Select.Option value="canceled">Canceled</Select.Option>
+                  {getStatusOptions().map((option) => (
+                    <Select.Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Select.Option>
+                  ))}
                 </Select>
   
               
@@ -215,7 +260,8 @@ const OrderActionStatus = () => {
 
       <Table
         columns={columns}
-        dataSource={orderData?.orders}
+        // dataSource={orderData?.orders}
+        dataSource={getFilteredOrders()}
         rowKey="orderId"
         loading={isLoading}
         pagination={{
