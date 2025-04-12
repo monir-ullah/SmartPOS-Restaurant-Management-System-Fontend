@@ -181,7 +181,26 @@ console.log(tableData?.data?.data); // make this ready for
                     name={[name, "quantity"]}
                     rules={[{ required: true, message: "Missing quantity" }]}
                   >
-                    <InputNumber min={1} defaultValue={1} placeholder="Quantity" />
+                    <InputNumber 
+                      min={1} 
+                      defaultValue={1} 
+                      placeholder="Quantity"
+                      onChange={(value) => {
+                        const foodId = form.getFieldValue(['items', name, 'foodId']);
+                        const food = foodItems?.data?.find((item: any) => item.foodId === foodId);
+                        if (food && value) {
+                          form.setFieldsValue({
+                            items: {
+                              [name]: {
+                                name: food.name,
+                                price: food.price,
+                                quantity: value
+                              }
+                            }
+                          });
+                        }
+                      }}
+                    />
                   </Form.Item>
 
                   <Form.Item
@@ -189,6 +208,32 @@ console.log(tableData?.data?.data); // make this ready for
                     name={[name, "specialInstructions"]}
                   >
                     <Input placeholder="Special instructions" />
+                  </Form.Item>
+
+                  <Form.Item
+                    noStyle
+                    shouldUpdate={(prevValues, currentValues) => {
+                      return (
+                        prevValues?.items?.[name]?.quantity !== currentValues?.items?.[name]?.quantity ||
+                        prevValues?.items?.[name]?.foodId !== currentValues?.items?.[name]?.foodId
+                      );
+                    }}
+                  >
+                    {({ getFieldValue }) => {
+                      const foodId = getFieldValue(['items', name, 'foodId']);
+                      const quantity = getFieldValue(['items', name, 'quantity']) || 0;
+                      const food = foodItems?.data?.find((item: any) => item.foodId === foodId);
+                      return (
+                        <div style={{ 
+                          marginLeft: '10px', 
+                          color: '#52c41a', 
+                          minWidth: '100px',
+                          fontSize: '14px'
+                        }}>
+                          {food ? `Total: ৳${(food.price * quantity).toFixed(2)}` : ''}
+                        </div>
+                      );
+                    }}
                   </Form.Item>
 
                   <MinusCircleOutlined onClick={() => remove(name)} />
