@@ -11,6 +11,8 @@ import CategoryList2 from "../components/UI/category/CategoryList2";
 import CreateTable from "../components/UI/table/CreateTable";
 import TableList from "../components/UI/table/TableList";
 import UpdateTable from "../components/UI/table/UpdateTable";
+import FoodList from "../components/UI/food/FoodList";
+import CreateFood from "../components/UI/food/CreateFood";
 
 type TRoute = {
   path: string;
@@ -73,6 +75,21 @@ const allRoutes: TRoute[] = [
         element: (
           <ProtectedRoute allowedRoles={['admin', 'manager']}>
             <UpdateTable />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "fooditem-list",
+        element: (
+          <FoodList />
+        ),
+      },
+      {
+        path: "create-food",
+        element: (
+          <ProtectedRoute allowedRoles={['admin','manager']}>
+            <CreateFood />
           </ProtectedRoute>
         ),
       },

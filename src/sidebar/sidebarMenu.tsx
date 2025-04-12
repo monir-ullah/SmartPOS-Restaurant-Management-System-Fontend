@@ -1,6 +1,8 @@
 import {
   AppstoreOutlined,
+  CoffeeOutlined,
   IdcardOutlined,
+  OrderedListOutlined,
   RiseOutlined,
   SettingOutlined,
   TableOutlined,
@@ -59,6 +61,16 @@ export const menuItem: TMenuItem[] = [
         key: "category-list",
         icon: <SettingOutlined />,
         label: <NavLink to={"/category-list"}>Category List</NavLink>,
+      },
+      {
+        key: "fooditem-list",
+        icon: <OrderedListOutlined />,
+        label: <NavLink to={"/fooditem-list"}>Food List</NavLink>,
+      },
+      {
+        key: "create-food",
+        icon: <CoffeeOutlined />,
+        label: <NavLink to={"/create-food"}>Create Food</NavLink>,
       }
     ]
   },

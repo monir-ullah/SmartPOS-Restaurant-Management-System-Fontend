@@ -15,7 +15,7 @@ export const baseAPI = createApi({
       return headers;
     },
   }),
-  tagTypes: [ "categories", "tables"], // Add tables tag
+  tagTypes: [ "categories", "tables","foodItems"], // Add tables tag
   endpoints: (builder) => ({
     // user Registration into the system
     registerUser: builder.mutation({
