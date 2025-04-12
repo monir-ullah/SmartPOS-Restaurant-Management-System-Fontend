@@ -118,6 +118,12 @@ export const menuItem: TMenuItem[] = [
         icon: <UnorderedListOutlined />,
         label: <NavLink to={"/order-list"}>Order List</NavLink>,
       },
+      
+      {
+        key: "order-list-status",
+        icon: <UnorderedListOutlined />,
+        label: <NavLink to={"/order-list-status"}>Order Queue</NavLink>,
+      },
     ]
   },
 ];

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Table, Tag, Space, Pagination } from "antd";
+import { Table, Tag, Space, Pagination, Input } from "antd";
 import { useDeleteOrderMutation, useGetAllOrdersQuery } from "../../../redux/features/order/orderApi";
 import dayjs from "dayjs";
 import { render } from "react-dom";
 import { Button, Popconfirm } from "antd";
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, SearchOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
@@ -14,12 +14,21 @@ const OrderList = () => {
 
   const [deleteOrder] = useDeleteOrderMutation();
   
-  const { data, isLoading } = useGetAllOrdersQuery({});
+//   const { data, isLoading } = useGetAllOrdersQuery({});
 
-  const orders = data?.orders || [];
-  const total = data?.meta?.total || 0;
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const navigate = useNavigate();
+  const { data: orderData, isLoading } = useGetAllOrdersQuery({
+    page,
+    limit: pageSize,
+    searchTerm
+  });
+
+  const orders = orderData?.orders || [];
+  const total = orderData?.meta?.total || 0;
+
+ 
 
   const handleDelete = async (orderId: string) => {
     try {
@@ -159,10 +168,19 @@ const OrderList = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h2 style={{ fontSize: "1.875rem", fontWeight: "bold", marginBottom: "1rem" }}>
-       Running Orders
-      </h2>
-      
+      <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2 style={{ fontSize: '1.875rem', fontWeight: 'bold', margin: 0 }}>Running Order List</h2>
+        <Space>
+          <Input
+            placeholder="Search food items..."
+            prefix={<SearchOutlined />}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ width: 250 }}
+            allowClear
+          />
+          
+        </Space>
+      </div>
       <Table
         columns={columns}
         dataSource={paginatedOrders}

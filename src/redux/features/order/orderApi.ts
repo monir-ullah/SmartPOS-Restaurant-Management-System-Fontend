@@ -18,8 +18,8 @@ export const orderApi = baseAPI.injectEndpoints({
     }),
 
     getAllOrders: builder.query({
-        query: (searchTerm = '') => ({
-          url: `orders/get-all-orders?searchTerm=${searchTerm}`,
+        query: ({page =1, limit = 10, searchTerm = ''}) => ({
+          url: `orders/get-all-orders?page=${page}&limit=${limit}&searchTerm=${searchTerm}`,
           method: "GET",
         }),
         transformResponse: (response: any) => {
@@ -32,6 +32,16 @@ export const orderApi = baseAPI.injectEndpoints({
     }),
 
     
+    updateOrderStatus: builder.mutation({
+      query: ({ orderId, status }) => ({
+        url: `/orders/${orderId}/status`,
+        method: 'PATCH',
+        body: { status }
+      }),
+      invalidatesTags: ['orders']
+    }),
+    
+
     // Delete food item
     deleteOrder: builder.mutation({
       query: (orderId) => ({
@@ -50,4 +60,5 @@ export const {
   useGetSingleOrderQuery,
   useGetAllOrdersQuery,
   useDeleteOrderMutation,
+  useUpdateOrderStatusMutation,
 } = orderApi;
