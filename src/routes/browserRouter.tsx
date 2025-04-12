@@ -16,6 +16,7 @@ import CreateFood from "../components/UI/food/CreateFood";
 import UpdateFood from "../components/UI/food/UpdateFood";
 import CreateOrder from "../components/UI/order/CreateOrder";
 import OrderList from "../components/UI/order/OrderList";
+import UpdateOrder from "../components/UI/order/UpdateOrder";
 
 type TRoute = {
   path: string;
@@ -110,6 +111,16 @@ const allRoutes: TRoute[] = [
         element: (
           <ProtectedRoute allowedRoles={['owner','admin', 'manager', 'waiter', 'cashier', 'chef', 'administrator']}>            
             <CreateOrder />
+          </ProtectedRoute>
+        ),
+      },
+    
+      {
+        
+        path: "update-order/:orderId",
+        element: (
+          <ProtectedRoute allowedRoles={['owner','admin', 'manager', 'waiter', 'cashier', 'chef', 'administrator']}>            
+            <UpdateOrder />
           </ProtectedRoute>
         ),
       },

@@ -11,15 +11,15 @@ export const orderApi = baseAPI.injectEndpoints({
       invalidatesTags: ["orders"],
     }),
     
-    // Get all orders
-    getOrders: builder.query({
-      query: () => "orders",
+    /// Get single food item
+    getSingleOrder: builder.query({
+      query: (orderId) => `orders/get-signle-order/${orderId}`,
       providesTags: ["orders"],
     }),
 
     getAllOrders: builder.query({
-        query: () => ({
-          url: "/orders/get-all-orders",
+        query: (searchTerm = '') => ({
+          url: `orders/get-all-orders?searchTerm=${searchTerm}`,
           method: "GET",
         }),
         transformResponse: (response: any) => {
@@ -31,12 +31,23 @@ export const orderApi = baseAPI.injectEndpoints({
         providesTags: ["orders"],
     }),
 
+    
+    // Delete food item
+    deleteOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `orders/delete-signle-order/${orderId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["orders"],
+    }),
+
 
   }),
 });
 
 export const {
   useCreateOrderMutation,
-  useGetOrdersQuery,
-  useGetAllOrdersQuery
+  useGetSingleOrderQuery,
+  useGetAllOrdersQuery,
+  useDeleteOrderMutation,
 } = orderApi;
