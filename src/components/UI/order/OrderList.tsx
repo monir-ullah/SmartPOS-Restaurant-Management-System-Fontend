@@ -35,6 +35,14 @@ const OrderList = () => {
       await deleteOrder(orderId).unwrap();
       toast.success("Order deleted successfully!");
     } catch (error) {
+        
+        //@ts-ignore
+        if(error?.data?.message){
+            //@ts-ignore
+            toast.error(error?.data?.message);
+          return; 
+        }
+      
       toast.error("Failed to delete order!");
     }
   };
