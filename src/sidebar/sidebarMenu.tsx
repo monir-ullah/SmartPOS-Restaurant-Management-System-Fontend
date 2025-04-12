@@ -97,4 +97,27 @@ export const menuItem: TMenuItem[] = [
       },
     ]
   },
+
+  /* 
+   * @section Order Management
+   * @description Handles restaurant order operations
+   * Includes order creation and listing
+   */
+  {
+    key: "order",
+    icon: <OrderedListOutlined />,
+    label: 'Order MNG',
+    children: [
+      {
+        key: "create-order",
+        icon: <RiseOutlined />,
+        label: <NavLink to={"/create-order"}>Create Order</NavLink>,
+      },
+      {
+        key: "order-list",
+        icon: <UnorderedListOutlined />,
+        label: <NavLink to={"/order-list"}>Order List</NavLink>,
+      },
+    ]
+  },
 ];
