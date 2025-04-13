@@ -2,9 +2,12 @@
 import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 import {
+  AppstoreFilled,
+  DashboardFilled,
   MediumOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  SoundFilled,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import { menuItem } from "../../sidebar/sidebarMenu";
@@ -100,7 +103,7 @@ const DashboardLayout = () => {
           }}
         >
           <NavLink to={"/"} replace={true}>
-            <MediumOutlined
+            <AppstoreFilled
               style={{
                 color: "white",
                 fontWeight: "bolder",
@@ -113,7 +116,7 @@ const DashboardLayout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={menuItem}
+          items={menuItem as any}
         />
       </Sider>
       <Layout>
