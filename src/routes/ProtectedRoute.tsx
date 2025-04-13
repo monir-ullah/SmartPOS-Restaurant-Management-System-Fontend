@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useAppSelector } from '../redux/hooks';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 type TProtectedRoute = {
@@ -17,11 +17,13 @@ type TUser = {
 
 
 const ProtectedRoute = ({ children, allowedRoles }: TProtectedRoute) => {
-const { token, user } = useAppSelector((state) => state.user);
+const { token, user, lastPath } = useAppSelector((state) => state.user);
+const location = useLocation();
+const navigate = useNavigate();
 
   if (!token) {
-    toast.error('Please login to continue');
-    return <Navigate to="/login" replace />;
+    toast.error('Please login to continue. You will be redirected to login page.You are not authorized to access the registration page.');
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   // @ts-ignore
@@ -29,6 +31,8 @@ const { token, user } = useAppSelector((state) => state.user);
     toast.error('You are not authorized to access this page');
     return <Navigate to="/login" replace />;
   }
+
+ 
   return <>{children}</>;
 };
 

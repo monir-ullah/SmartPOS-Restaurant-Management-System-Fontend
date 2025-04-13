@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button, Checkbox, Form, Input } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../../redux/features/baseApi";
 import { setUserInfo } from "../../../redux/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
@@ -11,11 +11,12 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   // dispatch function from redux
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const  from = location.state?.from?.pathname || "/";
 
-  // Getting the last path the user browse.
-  const lastPath = useAppSelector((state) => state.user.lastPath ? state.user.lastPath : "/");
+  
 
   // Login User Function from the redux baseAPI
   const [loginUser, { isError }] = useLoginUserMutation();
@@ -34,7 +35,7 @@ const Login = () => {
       toast.success("Successfully logged in!");
 
       // Redirecting the user to the last path
-      navigate(lastPath);
+      navigate(from, { replace: true });
     } catch (error) {
       toast.error("Login failed. Please check your credentials.");
     }

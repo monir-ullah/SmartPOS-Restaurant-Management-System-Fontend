@@ -18,6 +18,7 @@ import CreateOrder from "../components/UI/order/CreateOrder";
 import OrderList from "../components/UI/order/OrderList";
 import UpdateOrder from "../components/UI/order/UpdateOrder";
 import OrderActionStatus from "../components/UI/order/OrderActionStatus";
+import IncomeReport from "../components/UI/reports/IncomeReport";
 
 type TRoute = {
   path: string;
@@ -37,7 +38,9 @@ const allRoutes: TRoute[] = [
       },
       {
         path: "registration",
-        element: <Registration />,
+        element: (<ProtectedRoute allowedRoles={['admin','manager']}>
+          <Registration />
+        </ProtectedRoute>),
       },
       {
         path: "create-category",
@@ -141,6 +144,17 @@ const allRoutes: TRoute[] = [
             <OrderActionStatus />
           </ProtectedRoute>
           
+        ),
+      },
+    
+      {
+        path: "income-report",
+        element: (
+          
+          <ProtectedRoute allowedRoles={['owner','admin', 'manager']}>            
+            <IncomeReport />
+          </ProtectedRoute>
+
         ),
       },
       {

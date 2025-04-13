@@ -51,8 +51,23 @@ export const orderApi = baseAPI.injectEndpoints({
       invalidatesTags: ["orders"],
     }),
 
-
-  }),
+    // Update the getIncomeReport query
+    getIncomeReport: builder.query({
+      query: ({ reportType, date, startDate, endDate }) => ({
+        url: `/completed-orders/get-income`,
+        method: 'GET',
+        params: { reportType, date, startDate, endDate }
+      }),
+      providesTags: ["orders"],
+      // Add data transformation
+      transformResponse: (response: any) => {
+        return {
+          data: response.data || [],
+          meta: response.meta
+        };
+      }
+    }),
+}),
 });
 
 export const {
@@ -61,4 +76,5 @@ export const {
   useGetAllOrdersQuery,
   useDeleteOrderMutation,
   useUpdateOrderStatusMutation,
+  useGetIncomeReportQuery
 } = orderApi;

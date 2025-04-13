@@ -1,6 +1,7 @@
 import {
   AppstoreOutlined,
   CoffeeOutlined,
+  FilePdfFilled,
   IdcardOutlined,
   OrderedListOutlined,
   RiseOutlined,
@@ -123,6 +124,12 @@ export const menuItem: TMenuItem[] = [
         key: "order-list-status",
         icon: <UnorderedListOutlined />,
         label: <NavLink to={"/order-list-status"}>Order Queue</NavLink>,
+      },
+      
+      {
+        key: "income-report",
+        icon: <FilePdfFilled />,
+        label: <NavLink to={"/income-report"}>Income Report</NavLink>,
       },
     ]
   },
