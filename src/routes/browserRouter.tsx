@@ -38,20 +38,30 @@ const allRoutes: TRoute[] = [
       },
       {
         path: "registration",
-        element: (<ProtectedRoute allowedRoles={['admin','manager']}>
-          <Registration />
-        </ProtectedRoute>),
+        element: (
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
+            <Registration />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "create-category",
-        element: (<ProtectedRoute allowedRoles={['admin', 'manager']}>
-          <CreateCategory />
-        </ProtectedRoute>),
+        element: (
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
+            <CreateCategory />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "update-category/:categoryId",
         element: (
-          <ProtectedRoute allowedRoles={['admin', 'manager']}>
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
             <UpdateCategory />
           </ProtectedRoute>
         ),
@@ -59,7 +69,17 @@ const allRoutes: TRoute[] = [
       {
         path: "category-list",
         element: (
-          <ProtectedRoute allowedRoles={['admin','manager']}>
+          <ProtectedRoute
+            allowedRoles={[
+              "admin",
+              "manager",
+              "owner",
+              "administrator",
+              "waiter",
+              "cashier",
+              "chef",
+            ]}
+          >
             <CategoryList2 />
           </ProtectedRoute>
         ),
@@ -67,21 +87,23 @@ const allRoutes: TRoute[] = [
       {
         path: "create-table",
         element: (
-          <ProtectedRoute allowedRoles={['admin', 'manager']}>
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
             <CreateTable />
           </ProtectedRoute>
         ),
       },
       {
         path: "table-list",
-        element: (
-          <TableList />
-        ),
+        element: <TableList />,
       },
       {
         path: "update-table/:tableId",
         element: (
-          <ProtectedRoute allowedRoles={['admin', 'manager']}>
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
             <UpdateTable />
           </ProtectedRoute>
         ),
@@ -89,14 +111,14 @@ const allRoutes: TRoute[] = [
 
       {
         path: "fooditem-list",
-        element: (
-          <FoodList />
-        ),
+        element: <FoodList />,
       },
       {
         path: "create-food",
         element: (
-          <ProtectedRoute allowedRoles={['admin','manager']}>
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
             <CreateFood />
           </ProtectedRoute>
         ),
@@ -104,57 +126,84 @@ const allRoutes: TRoute[] = [
       {
         path: "update-food/:foodId",
         element: (
-          <ProtectedRoute allowedRoles={['admin','manager']}>
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
             <UpdateFood />
           </ProtectedRoute>
         ),
       },
-    
+
       {
         path: "create-order",
         element: (
-          <ProtectedRoute allowedRoles={['owner','admin', 'manager', 'waiter', 'cashier', 'chef', 'administrator']}>            
+          <ProtectedRoute
+            allowedRoles={[
+              "owner",
+              "admin",
+              "manager",
+              "waiter",
+              "cashier",
+              "chef",
+              "administrator",
+            ]}
+          >
             <CreateOrder />
           </ProtectedRoute>
         ),
       },
-    
+
       {
-        
         path: "update-order/:orderId",
         element: (
-          <ProtectedRoute allowedRoles={['owner','admin', 'manager', 'waiter', 'cashier', 'chef', 'administrator']}>            
+          <ProtectedRoute
+            allowedRoles={[
+              "owner",
+              "admin",
+              "manager",
+              "waiter",
+              "cashier",
+              "chef",
+              "administrator",
+            ]}
+          >
             <UpdateOrder />
           </ProtectedRoute>
         ),
       },
-    
+
       {
         path: "order-list",
-        element: (
-          <OrderList />
-        ),
+        element: <OrderList />,
       },
-    
+
       {
         path: "order-list-status",
         element: (
-          
-          <ProtectedRoute allowedRoles={['owner','admin', 'manager', 'waiter', 'cashier', 'chef', 'administrator']}>            
+          <ProtectedRoute
+            allowedRoles={[
+              "owner",
+              "admin",
+              "manager",
+              "waiter",
+              "cashier",
+              "chef",
+              "administrator",
+            ]}
+          >
             <OrderActionStatus />
           </ProtectedRoute>
-          
         ),
       },
-    
+
       {
         path: "income-report",
         element: (
-          
-          <ProtectedRoute allowedRoles={['owner','admin', 'manager']}>            
+          <ProtectedRoute
+            allowedRoles={["admin", "manager", "owner", "administrator"]}
+          >
             <IncomeReport />
           </ProtectedRoute>
-
         ),
       },
       {

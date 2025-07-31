@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMediaQuery } from "react-responsive";
+// import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 import {
   AppstoreFilled,
-  DashboardFilled,
-  MediumOutlined,
+  // DashboardFilled,
+  // MediumOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  SoundFilled,
+  SettingOutlined,
+  UserOutlined,
+  // SoundFilled,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme } from "antd";
+import { Layout, Menu, Button, theme, Badge } from "antd";
 import { menuItem } from "../../sidebar/sidebarMenu";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -17,6 +19,7 @@ import { logOutUser } from "../../redux/features/user/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TUserInfo } from "../../interface/interface.type";
+import ChatApp from "../UI/chat/ChatApp";
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,7 +32,7 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
 
   // Smaller Screen Size  maxWidth 576px
-  const isSmallScreen = useMediaQuery({ maxWidth: 576 });
+  // const isSmallScreen = useMediaQuery({ maxWidth: 576 });
 
   const themeHeader = {
     colorBgContainer: "#FFFFFF",
@@ -51,7 +54,7 @@ const DashboardLayout = () => {
 
   const isUserCorrect = userName && expDate > currentTime; // is user is authorize or not
 
-  
+  console.log("User Info:", user);
 
   // Handling Layout Header responsive issue
   let layoutHight: any;
@@ -88,7 +91,6 @@ const DashboardLayout = () => {
     return navigate("/login");
   };
 
- 
   return (
     // This is the main Layout in our Software
     <Layout style={{ height: "100vh" }}>
@@ -135,14 +137,46 @@ const DashboardLayout = () => {
 
           {isUserCorrect && (
             <>
-              <Button onClick={logOutFunction} style={{ marginRight: "20px" }}>
+              <Button
+                type="primary"
+                danger
+                onClick={logOutFunction}
+                style={{
+                  fontWeight: "bold",
+                  padding: "0 16px",
+                  height: "36px",
+                  marginRight: "12px",
+                }}
+              >
                 Logout
-              </Button>{" "}
-              
+              </Button>
+
+              <Badge
+                count={null}
+                style={{
+                  backgroundColor: "#60ca2a",
+                  color: "white",
+                  padding: "6px 16px",
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  borderRadius: "20px",
+                  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                }}
+              >
+                <span style={{ marginRight: "16px" }}>
+                  <UserOutlined style={{ marginRight: 6 }} />
+                  {userName
+                    .split("_")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ")}
+                </span>
+                <span>
+                  <SettingOutlined style={{ marginRight: 6 }} />
+                  {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                </span>
+              </Badge>
             </>
           )}
-
-          
         </Header>
 
         {/* This section will show the content inside the main layout. */}
@@ -168,9 +202,14 @@ const DashboardLayout = () => {
                 textAlign: "center",
               }}
             >
-              <h1>Welcome to Dashboard</h1>
+              <h1>SmartPOS: A Web-Based Restaurant Management System</h1>
               <p style={{ padding: "50px 300px" }}>
-                Welcome to our secure dashboard system. With JWT authentication and modern features, this platform provides a robust foundation for your application. Built with React and Redux for efficient state management, it offers a responsive and user-friendly experience.
+                SmartPOS is an all-in-one web-based restaurant management system
+                designed to streamline daily operations. It offers real-time
+                order tracking, table management, inventory control, and sales
+                reporting — all accessible from any device. Built for speed and
+                simplicity, SmartPOS helps restaurants run smarter and serve
+                better
               </p>
 
               {/*Login in a registration Button  */}
@@ -187,6 +226,8 @@ const DashboardLayout = () => {
             // Handling Routes . For this every page will show in the software layout.
             <Outlet />
           )}
+
+          {user.role === "administrator" && <ChatApp />}
 
           <ToastContainer
             position="top-right"
