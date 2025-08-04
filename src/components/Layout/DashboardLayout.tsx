@@ -227,7 +227,7 @@ const DashboardLayout = () => {
             <Outlet />
           )}
 
-          {user.role === "administrator" && <ChatApp />}
+          {isUserCorrect && user.role !== "chef" && "waiter" && <ChatApp />}
 
           <ToastContainer
             position="top-right"
